@@ -19,7 +19,7 @@ namespace ClaimSystem.Models
             var claim = claims.Find(c => c.Id == id);
             if (claim != null)
             {
-                claim.Status = status;
+                claim.Status = status; 
             }
         }
     }
