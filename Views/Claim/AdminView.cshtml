@@ -9,7 +9,7 @@
 @if (Model != null && Model.Count > 0)
 {
     <table class="table">
-        <thead>
+        <thead style="background-color:cornflowerblue;">
             <tr>
                 <th>ID</th>
                 <th>Lecturer Name</th>
@@ -20,6 +20,7 @@
                 <th>Status</th>
                 <th>Submission Date</th>
                 <th>Uploaded Document</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -34,6 +35,7 @@
                     <td>@claim.AdditionalNotes</td>
                     <td>@claim.Status</td>
                     <td>@claim.SubmissionDate.ToString("g")</td>
+                    
                     <td>
                         @if (!string.IsNullOrEmpty(claim.DocumentPath))
                         {
@@ -44,6 +46,10 @@
                             <span>No Document Uploaded</span>
                         }
                     </td>
+                    <td>
+                        <a asp-action="ApproveClaim" asp-route-id="@claim.Id" class="btn btn-success  w-100 mb-2">Approve</a>
+                        <a asp-action="RejectClaim" asp-route-id="@claim.Id" class="btn btn-danger  w-100 ">Reject</a>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -52,6 +58,6 @@
 else
 {
     <div class="alert alert-warning" role="alert">
-        No claims available at this time.
+        No claims Needed Assesments At This Time.
     </div>
 }

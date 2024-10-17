@@ -9,7 +9,7 @@
 @if (Model != null && Model.Count > 0)
 {
     <table class="table">
-        <thead>
+        <thead style="background-color:cornflowerblue;">
             <tr>
                 <th>ID</th>
                 <th>Lecturer Name</th>
@@ -19,7 +19,6 @@
                 <th>Additional Notes</th> 
                 <th>Status</th>
                 <th>Submission Date</th>
-                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -34,10 +33,6 @@
                     <td>@claim.AdditionalNotes</td> 
                     <td>@claim.Status</td>
                     <td>@claim.SubmissionDate.ToString("g")</td> 
-                    <td>
-                        <a asp-action="ApproveClaim" asp-route-id="@claim.Id" class="btn btn-success">Approve</a>
-                        <a asp-action="RejectClaim" asp-route-id="@claim.Id" class="btn btn-danger">Reject</a>
-                    </td>
                 </tr>
             }
         </tbody>
