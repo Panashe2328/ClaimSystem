@@ -24,7 +24,7 @@ namespace ClaimSystem.Models
 
         public string AdditionalNotes { get; set; }
 
-        public string DocumentPath { get; set; }
+        public string? DocumentPath { get; set; }
 
         public string Status { get; set; } = "Pending"; // Default status
 

@@ -1,9 +1,10 @@
 ﻿using ClaimSystem.Models;
-// using ClaimSystem.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System.Security.Claims;
+using System.Linq;
+using System;
 
 namespace ClaimSystem.Controllers
 {
@@ -15,12 +16,12 @@ namespace ClaimSystem.Controllers
         {
             return View();
         }
+
         public IActionResult AdminView()
         {
             var claims = _repository.GetClaims(); // Get claims from the repository
             return View(claims);
         }
-
 
         [HttpPost]
         public IActionResult SubmitClaim(ClaimSystem.Models.Claim claim, IFormFile document)
@@ -29,21 +30,59 @@ namespace ClaimSystem.Controllers
             {
                 if (document != null && document.Length > 0)
                 {
-                    var filePath = Path.Combine("wwwroot/documents", document.FileName);
-                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    // File validation logic
+                    var allowedExtensions = new[] { ".pdf", ".docx", ".xlsx" };
+                    var fileExtension = Path.GetExtension(document.FileName).ToLower();
+
+                    if (!allowedExtensions.Contains(fileExtension))
                     {
-                        document.CopyTo(stream);
+                        ModelState.AddModelError("DocumentPath", "Only PDF, DOCX, or XLSX files are allowed.");
+                        return View(claim);
                     }
-                    claim.DocumentPath = filePath; // Store file path
+
+                    // Ensure the folder exists
+                    var folderPath = Path.Combine("wwwroot", "Documents");
+                    if (!Directory.Exists(folderPath))
+                    {
+                        Directory.CreateDirectory(folderPath);
+                    }
+
+                    // Save the file to wwwroot/documents
+                    var fileName = Path.GetFileName(document.FileName);
+                    var filePath = Path.Combine(folderPath, fileName);
+
+                    try
+                    {
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            document.CopyTo(stream);
+                        }
+                        claim.DocumentPath = filePath; // Store the file path in the claim
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError("DocumentPath", "File upload failed: " + ex.Message);
+                        return View(claim);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("DocumentPath", "Please upload a document.");
+                    return View(claim);
                 }
 
-                claim.LecturerName = User.Identity.Name; // Assuming user is logged in
-                claim.LecturerEmail = User.FindFirstValue(System.Security.Claims.ClaimTypes.Email); // Get lecturer's email
+                // Set claim data
+                claim.LecturerName = User.Identity.Name;
+                claim.LecturerEmail = User.FindFirstValue(ClaimTypes.Email);
+                claim.Status = "Pending"; // Initial claim status
 
+                // Add claim to the repository
                 _repository.AddClaim(claim);
+
+                // Redirect to the claim status view after successful submission
                 return RedirectToAction("ClaimStatus");
             }
-            return View(claim);
+            return View(claim); // Return to the form if there are validation errors
         }
 
         public IActionResult ClaimStatus()

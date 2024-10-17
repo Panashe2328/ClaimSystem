@@ -13,6 +13,12 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+if (!Directory.Exists("wwwroot/Documents"))
+{
+    Directory.CreateDirectory("wwwroot/Documents");
+}
+
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
