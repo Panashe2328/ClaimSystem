@@ -1,14 +1,12 @@
-﻿@{
+﻿@model ClaimSystem.Models.Claim
+@{
     ViewData["Title"] = "Home Page";
 }
 
-
-
 <div class="button-container">
     <div class="button-container">
-        <a href="@Url.Action("SubmitClaim", "ClaimController")" class="btn btn-primary">Submit Claim</a>
-        <a href="@Url.Action("ClaimStatus", "ClaimController")" class="btn btn-info">View Claim Status</a>
-        <a href="@Url.Action("AdminView", "ClaimController")" class="btn btn-warning">Admin View</a>
+        <a href="@Url.Action("SubmitClaim", "Claim")" class="btn btn-primary">Submit Claim</a>
+        <a href="@Url.Action("ClaimStatus", "Claim")" class="btn btn-info">View Claim Status</a>
+        <a href="@Url.Action("AdminView", "Claim")" class="btn btn-warning">Admin View</a>
     </div>
-
 </div>
