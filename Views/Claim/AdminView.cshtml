@@ -1,0 +1,57 @@
+﻿@model List<ClaimSystem.Models.Claim>
+
+@{
+    ViewData["Title"] = "Admin Claim ";
+}
+
+<h2> Claims </h2>
+
+@if (Model != null && Model.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Lecturer Name</th>
+                <th>Lecturer Email</th>
+                <th>Hours Worked</th>
+                <th>Hourly Rate</th>
+                <th>Additional Notes</th>
+                <th>Status</th>
+                <th>Submission Date</th>
+                <th>Uploaded Document</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var claim in Model)
+            {
+                <tr>
+                    <td>@claim.Id</td>
+                    <td>@claim.LecturerName</td>
+                    <td>@claim.LecturerEmail</td>
+                    <td>@claim.HoursWorked</td>
+                    <td>@claim.HourlyRate</td>
+                    <td>@claim.AdditionalNotes</td>
+                    <td>@claim.Status</td>
+                    <td>@claim.SubmissionDate.ToString("g")</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(claim.DocumentPath))
+                        {
+                            <a href="@Url.Content(claim.DocumentPath)" target="_blank" class="btn btn-info">View Document</a>
+                        }
+                        else
+                        {
+                            <span>No Document Uploaded</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning" role="alert">
+        No claims available at this time.
+    </div>
+}

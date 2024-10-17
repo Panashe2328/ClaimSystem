@@ -1,7 +1,9 @@
 ﻿using ClaimSystem.Models;
-//using ClaimSystem.Data;
+// using ClaimSystem.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
+using System.Security.Claims;
 
 namespace ClaimSystem.Controllers
 {
@@ -13,9 +15,15 @@ namespace ClaimSystem.Controllers
         {
             return View();
         }
+        public IActionResult AdminView()
+        {
+            var claims = _repository.GetClaims(); // Get claims from the repository
+            return View(claims);
+        }
+
 
         [HttpPost]
-        public IActionResult SubmitClaim(Claim claim, IFormFile document)
+        public IActionResult SubmitClaim(ClaimSystem.Models.Claim claim, IFormFile document)
         {
             if (ModelState.IsValid)
             {
@@ -28,7 +36,10 @@ namespace ClaimSystem.Controllers
                     }
                     claim.DocumentPath = filePath; // Store file path
                 }
+
                 claim.LecturerName = User.Identity.Name; // Assuming user is logged in
+                claim.LecturerEmail = User.FindFirstValue(System.Security.Claims.ClaimTypes.Email); // Get lecturer's email
+
                 _repository.AddClaim(claim);
                 return RedirectToAction("ClaimStatus");
             }

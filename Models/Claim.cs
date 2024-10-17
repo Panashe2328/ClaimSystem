@@ -13,6 +13,10 @@ namespace ClaimSystem.Models
         public string LecturerName { get; set; }
 
         [Required]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        public string LecturerEmail { get; set; }  
+
+        [Required]
         public decimal HoursWorked { get; set; }
 
         [Required]
