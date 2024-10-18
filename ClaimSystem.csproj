@@ -10,4 +10,6 @@
     <Folder Include="wwwroot\Documents\" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties _1filenesting_1json__JsonSchema="test" /></VisualStudio></ProjectExtensions>
+
 </Project>
