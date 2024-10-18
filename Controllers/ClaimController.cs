@@ -85,6 +85,7 @@ namespace ClaimSystem.Controllers
             return View(claim); // Return to the form if there are validation errors
         }
 
+        
         public IActionResult ClaimStatus()
         {
             var claims = _repository.GetClaims();
