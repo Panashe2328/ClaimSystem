@@ -18,7 +18,6 @@ if (!Directory.Exists("wwwroot/Documents"))
     Directory.CreateDirectory("wwwroot/Documents");
 }
 
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
