@@ -10,6 +10,10 @@
     <Folder Include="wwwroot\Documents\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ClaimSystem_Test\ClaimSystem_Test.csproj" />
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties _1filenesting_1json__JsonSchema="test" /></VisualStudio></ProjectExtensions>
 
 </Project>
