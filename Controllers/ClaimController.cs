@@ -57,7 +57,7 @@ namespace ClaimSystem.Controllers
                         {
                             document.CopyTo(stream);
                         }
-                        claim.DocumentPath = filePath; // Store the file path in the claim
+                        claim.DocumentPath = $"/Documents/{fileName}"; // Store the file path in the claim
                     }
                     catch (Exception ex)
                     {
