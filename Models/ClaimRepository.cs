@@ -57,6 +57,7 @@ namespace ClaimSystem.Models
 
         public void UpdateClaimStatus(int id, string status)
         {
+
             var claim = claims.Find(c => c.Id == id);
             if (claim != null)
             {

@@ -14,12 +14,14 @@ namespace ClaimSystem.Models
 
         [Required]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
-        public string? LecturerEmail { get; set; }  
+        public string? LecturerEmail { get; set; }
 
         [Required]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Hours worked must be a positive number.")]
         public decimal HoursWorked { get; set; }
 
         [Required]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Hourly rate must be a positive number.")]
         public decimal HourlyRate { get; set; }
 
         public string AdditionalNotes { get; set; }
@@ -29,5 +31,8 @@ namespace ClaimSystem.Models
         public string Status { get; set; } = "Pending"; // Default status
 
         public DateTime SubmissionDate { get; set; } = DateTime.Now;
+
+
     }
+   
 }

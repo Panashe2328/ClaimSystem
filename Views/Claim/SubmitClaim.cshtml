@@ -31,6 +31,11 @@
     </div>
 
     <div class="mb-3">
+        <label>Final Payment:</label>
+        <input type="text" id="finalPayment" class="form-control" readonly />
+    </div>
+
+    <div class="mb-3">
         <label asp-for="AdditionalNotes" class="form-label">Additional Notes:</label>
         <textarea asp-for="AdditionalNotes" class="form-control"></textarea>
         <span asp-validation-for="AdditionalNotes" class="text-danger"></span>
@@ -47,5 +52,22 @@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
+ 
     }
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const hoursWorkedInput = document.getElementById("HoursWorked");
+            const hourlyRateInput = document.getElementById("HourlyRate");
+            const finalPaymentInput = document.getElementById("finalPayment");
+
+            function calculateFinalPayment() {
+                const hoursWorked = parseFloat(hoursWorkedInput.value) || 0;
+                const hourlyRate = parseFloat(hourlyRateInput.value) || 0;
+                finalPaymentInput.value = (hoursWorked * hourlyRate).toFixed(2);
+            }
+
+            hoursWorkedInput.addEventListener("input", calculateFinalPayment);
+            hourlyRateInput.addEventListener("input", calculateFinalPayment);
+        });
+    </script>
 }
