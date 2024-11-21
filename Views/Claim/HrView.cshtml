@@ -1,0 +1,15 @@
+﻿@foreach (var claim in Model)
+{
+    <tr>
+        <td>@claim.LecturerName</td>
+        <td>@claim.LecturerEmail</td>
+        <td>@claim.TotalPay</td>
+        <td>@claim.HoursWorked</td>
+        <td>
+            <a href="@Url.Action("GenerateInvoice", "Claim", new { claimId = claim.Id })" class="btn btn-primary">Generate Invoice</a>
+        </td>
+        <td>
+            <a href="@Url.Action("ProcessClaimForApproval", "Claim", new { claimId = claim.Id })" class="btn btn-success">Process</a>
+        </td>
+    </tr>
+}

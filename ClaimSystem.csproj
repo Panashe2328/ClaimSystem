@@ -11,7 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ClaimSystem_Test\ClaimSystem_Test.csproj" />
+    <PackageReference Include="iTextSharp" Version="5.5.13.4" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties _1filenesting_1json__JsonSchema="test" /></VisualStudio></ProjectExtensions>

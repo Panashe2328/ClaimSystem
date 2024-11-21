@@ -1,4 +1,5 @@
-﻿@model List<ClaimSystem.Models.Claim>
+﻿
+@model List<ClaimSystem.Models.Claim>
 
 @{
     ViewData["Title"] = "Claim Status";
@@ -13,10 +14,10 @@
             <tr>
                 <th>ID</th>
                 <th>Lecturer Name</th>
-                <th>Lecturer Email</th>
+                <th>Lecturer Email</th> 
                 <th>Hours Worked</th>
                 <th>Hourly Rate</th>
-                <th>Total Pay</th> <!-- New column for Total Pay -->
+                <th>Total Pay</th>
                 <th>Additional Notes</th>
                 <th>Status</th>
                 <th>Submission Date</th>
@@ -25,19 +26,17 @@
         <tbody>
             @foreach (var claim in Model)
             {
-                // Calculate total pay
                 var totalPay = claim.HoursWorked * claim.HourlyRate;
-
                 <tr>
                     <td>@claim.Id</td>
                     <td>@claim.LecturerName</td>
                     <td>@claim.LecturerEmail</td>
                     <td>@claim.HoursWorked</td>
-                    <td>@claim.HourlyRate.ToString("C")</td> <!-- Format as currency -->
+                    <td>@claim.HourlyRate.ToString("C")</td>
                     <td>@totalPay.ToString("C")</td>
-                    <td>@claim.AdditionalNotes</td>
+                    <td>@claim.AdditionalNotes</td> 
                     <td>@claim.Status</td>
-                    <td>@claim.SubmissionDate.ToString("g")</td>
+                    <td>@claim.SubmissionDate.ToString("g")</td> 
                 </tr>
             }
         </tbody>

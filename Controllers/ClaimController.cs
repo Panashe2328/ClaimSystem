@@ -5,6 +5,8 @@ using System.IO;
 using System.Security.Claims;
 using System.Linq;
 using System;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
 
 namespace ClaimSystem.Controllers
 {
@@ -15,6 +17,12 @@ namespace ClaimSystem.Controllers
         public IActionResult SubmitClaim()
         {
             return View();
+        }
+
+        public IActionResult HrView()
+        {
+            var claims = _repository.GetClaims();
+            return View(claims); 
         }
 
         public IActionResult AdminView()
@@ -57,7 +65,7 @@ namespace ClaimSystem.Controllers
                         {
                             document.CopyTo(stream);
                         }
-                        claim.DocumentPath = $"/Documents/{fileName}"; // Store the file path in the claim
+                        claim.DocumentPath = filePath; // Store the file path in the claim
                     }
                     catch (Exception ex)
                     {
@@ -85,7 +93,6 @@ namespace ClaimSystem.Controllers
             return View(claim); // Return to the form if there are validation errors
         }
 
-        
         public IActionResult ClaimStatus()
         {
             var claims = _repository.GetClaims();
@@ -103,5 +110,37 @@ namespace ClaimSystem.Controllers
             _repository.UpdateClaimStatus(id, "Rejected");
             return RedirectToAction("ClaimStatus");
         }
+
+
+        public IActionResult GenerateInvoice(int claimId)
+        {
+            var claim = _repository.GetClaims().FirstOrDefault(c => c.Id == claimId);
+            if (claim == null)
+            {
+                return NotFound();
+            }
+
+            // Create a PDF document
+            var doc = new Document();
+            var stream = new MemoryStream();
+            var writer = PdfWriter.GetInstance(doc, stream);
+            doc.Open();
+
+            // Add content to the PDF
+            doc.Add(new Paragraph($"Invoice for Claim ID: {claim.Id}"));
+            doc.Add(new Paragraph($"Lecturer: {claim.LecturerName}"));
+            doc.Add(new Paragraph($"Email: {claim.LecturerEmail}"));
+            doc.Add(new Paragraph($"Hours Worked: {claim.HoursWorked}"));
+            doc.Add(new Paragraph($"Hourly Rate: {claim.HourlyRate:C}"));
+            doc.Add(new Paragraph($"Total Amount: {claim.HoursWorked * claim.HourlyRate:C}"));
+            doc.Add(new Paragraph($"Claim Status: {claim.Status}"));
+            doc.Add(new Paragraph($"Reason for Rejection (if any): {claim.ReasonForRejection}"));
+
+            doc.Close();
+
+            // Return the PDF as a file to the user
+            return File(stream.ToArray(), "application/pdf", $"Invoice_Claim_{claim.Id}.pdf");
+        }
+
     }
 }
